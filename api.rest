@@ -1,0 +1,39 @@
+### 게시물 등록
+POST http://localhost:3000/board/articles
+Content-Type: application/json; charset=UTF-8
+
+{
+  "title": "Younghwa is...",
+  "content": "actually handsome, fr",
+  "password": 1234
+}
+###
+
+### 게시물 불러오기
+GET http://localhost:3000/board/articles
+###
+
+### 게시물 상세보기
+GET http://localhost:3000/board/articles/1
+###
+
+### 게시물 수정
+PUT http://localhost:3000/board/articles/1
+Content-Type: application/json; charset=UTF-8
+
+{
+  "title": "Younghwa is...",
+  "content": "actually adorable",
+  "password": 1234
+}
+###
+
+### 게시물 삭제
+DELETE http://localhost:3000/board/articles/1
+Content-Type: application/json; charset=UTF-8
+
+{
+    "password": 1234
+}
+###
+
