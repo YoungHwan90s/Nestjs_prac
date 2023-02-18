@@ -1,55 +1,68 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import _ from 'lodash';
-  
-  @Injectable()
-  export class BoardService {
-    // 데이터베이스를 사용하지 않아 일단은 배열로 구현
-    // 보통은 TypeORM 모듈을 이용하여 리포지토리를 의존한다
-    private articles = [];
-  
-    // 게시글 비밀번호를 저장하기 위한 Map 객체
-    private articlePasswords = new Map(); // {articleId => password}, {1 => 1234}...
-  
-    getArticles() {
-      return this.articles;
-    }
-  
-    getArticleById(id: number) {
-      return this.articles.find((article) => {
-        return article.id === id
+import { Repository } from 'typeorm';
+import { Article } from './article.entity';
+
+@Injectable()
+export class BoardService {
+  constructor(
+    @InjectRepository(Article) private articleRepository: Repository<Article>,
+  ) {}
+
+  async getArticles() {
+    return await this.articleRepository.find({
+      where: { deletedAt: null },
+      select: ['id', 'author', 'title', 'createdAt'],
     });
+  }
+
+  async getArticleById(id: number) {
+    return await this.articleRepository.findOne({
+      where: { id, deletedAt: null },
+      select: ['author', 'title', 'content', 'createdAt', 'updatedAt'],
+    });
+  }
+
+  createArticle(title: string, content: string, password: number) {
+    this.articleRepository.insert({
+      author: 'test',
+      title,
+      content,
+      password: password.toString(),
+    });
+  }
+
+  async updateArticle(
+    id: number,
+    title: string,
+    content: string,
+    password: number,
+  ) {
+    await this.verifyPassword(id, password);
+    this.articleRepository.update(id, { title, content });
+  }
+
+  async deleteArticle(id: number, password: number) {
+    await this.verifyPassword(id, password);
+    this.articleRepository.softDelete(id);
+  }
+
+  private async verifyPassword(id: number, password: number) {
+    const article = await this.articleRepository.findOne({
+      where: { id, deletedAt: null },
+      select: ['password'],
+    });
+
+    if (_.isNil(article)) {
+      throw new NotFoundException(`Article not found. id: ${id}`);
     }
-  
-    createArticle(title: string, content: string, password: number) {
-      const articleId = this.articles.length + 1;
-      this.articles.push({ id: articleId, title, content });
-      this.articlePasswords.set(articleId, password);
-      return articleId;
-    }
-  
-    updateArticle(id: number, title: string, content: string, password: number) {
-      if (this.articlePasswords.get(id) !== password) {
-        throw new UnauthorizedException(
-          `Article password is not correct. id: ${id}`,
-        );
-      }
-  
-      const article = this.getArticleById(id);
-      if (_.isNil(article)) {
-        throw new NotFoundException(`Article not found. id: ${id}`);
-      }
-  
-      article.title = title;
-      article.content = content;
-    }
-  
-    deleteArticle(id: number, password: number) {
-      if (this.articlePasswords.get(id) !== password) {
-        throw new UnauthorizedException(
-          `Article password is not correct. id: ${id}`,
-        );
-      }
-      // 일치하는 비밀번호만 제외하고 재배열
-      this.articles = this.articles.filter((article) => article.id !== id);
+    if (article.password !== password.toString()) {
+      throw new UnauthorizedException(`Passworld is incorrect. id: ${id}`);
     }
   }
+}

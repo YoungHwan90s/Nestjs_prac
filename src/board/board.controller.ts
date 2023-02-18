@@ -17,13 +17,13 @@ import {
     constructor(private readonly boardService: BoardService) {}
   
     @Get('/articles')
-    getArticles() {
-      return this.boardService.getArticles();
+    async getArticles() {
+      return await this.boardService.getArticles();
     }
   
     @Get('/articles/:id')
-    getArticleById(@Param('id') articleId: number) {
-      return this.boardService.getArticleById(articleId);
+    async getArticleById(@Param('id') articleId: number) {
+      return await this.boardService.getArticleById(articleId);
     }
   
     @Post('/articles')
@@ -36,11 +36,11 @@ import {
     }
   
     @Put('/articles/:id')
-    updateArticle(
+    async updateArticle(
       @Param('id') articleId: number,
       @Body() data: UpdateArticleDto,
     ) {
-      return this.boardService.updateArticle(
+      return await this.boardService.updateArticle(
         articleId,
         data.title,
         data.content,
@@ -49,10 +49,10 @@ import {
     }
   
     @Delete('/articles/:id')
-    deleteArticle(
+    async deleteArticle(
       @Param('id') articleId: number,
       @Body() data: DeleteArticleDto,
     ) {
-      return this.boardService.deleteArticle(articleId, data.password);
+      return await this.boardService.deleteArticle(articleId, data.password);
     }
   }
