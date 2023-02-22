@@ -23,6 +23,9 @@ import {
   
     @Column("varchar", { select: false })
     password: string;
+
+    @Column("int", {default: 0})
+    view: number; // 새로 추가된 컬럼!
   
     @CreateDateColumn()
     createdAt: Date;

@@ -1,16 +1,36 @@
+### 로그인
+POST http://localhost:3000/user/login
+###
+
+### 회원가입
+POST http://localhost:3000/user/signup
+Content-Type: application/json; charset=UTF-8
+###
+
+### 비밀번호 변경
+PUT http://localhost:3000/user/update
+Content-Type: application/json; charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc3MDYzNTcxLCJleHAiOjE2NzcwNjcxNzF9.Xx28WrLtWkXOiIRBnA5wgioDDuXXwNs8WBMTfQ73w7A
+###
+
 ### 게시물 등록
 POST http://localhost:3000/board/articles
 Content-Type: application/json; charset=UTF-8
 
 {
-  "title": "Younghwa is...",
-  "content": "actually handsome, fr",
-  "password": 1234
+  "title": "younghwan",
+  "content": "isreally cool",
+  "password": 1234,
+  "view": 50
 }
 ###
 
 ### 게시물 불러오기
 GET http://localhost:3000/board/articles
+###
+
+### 핫 게시물 내림차순 불러오기
+GET http://localhost:3000/board/hot-articles
 ###
 
 ### 게시물 상세보기
