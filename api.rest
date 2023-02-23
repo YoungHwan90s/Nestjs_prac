@@ -22,7 +22,7 @@ Content-Type: application/json; charset=UTF-8
 ### 비밀번호 변경
 PUT http://localhost:3000/user/update
 Content-Type: application/json; charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc3MTMxNjk1LCJleHAiOjE2NzcxMzUyOTV9.ImaE9ME8aLp7B3ddTK6Kmv6ro5jubc0TP395LrmA2c4
+Authorization: Bearer
 
 {
   "userId": "younghwan",
