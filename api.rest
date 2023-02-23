@@ -1,16 +1,34 @@
 ### 로그인
 POST http://localhost:3000/user/login
+Content-Type: application/json; charset=UTF-8
+
+{
+  "userId": "yh",
+  "password": "1234"
+}
 ###
 
 ### 회원가입
 POST http://localhost:3000/user/signup
 Content-Type: application/json; charset=UTF-8
+
+{
+  "userId": "younghwan",
+  "name": "younghwan",
+  "password": "1234"
+}
 ###
 
 ### 비밀번호 변경
 PUT http://localhost:3000/user/update
 Content-Type: application/json; charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc3MDYzNTcxLCJleHAiOjE2NzcwNjcxNzF9.Xx28WrLtWkXOiIRBnA5wgioDDuXXwNs8WBMTfQ73w7A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc3MTMxNjk1LCJleHAiOjE2NzcxMzUyOTV9.ImaE9ME8aLp7B3ddTK6Kmv6ro5jubc0TP395LrmA2c4
+
+{
+  "userId": "younghwan",
+  "name": "jeonggi",
+  "password": "12341234"
+}
 ###
 
 ### 게시물 등록
